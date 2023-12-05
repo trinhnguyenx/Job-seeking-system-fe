@@ -1,0 +1,12 @@
+@mixin gradient-text {
+    background: var(--Logo, linear-gradient(98deg, #ff784e 0%, #fb347c 99.75%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  @mixin text-style ($font-size, $font-weight, $color) {
+    font-size: $font-size;
+    font-weight: $font-weight;
+    color: $color;
+  }
