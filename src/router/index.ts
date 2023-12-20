@@ -3,13 +3,13 @@ import { createRouter, createWebHistory } from "vue-router"
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        // {
-        //     path: "/",
-        //     component: () => import("../views/home/index.vue"),
-        //     meta: {
-        //         layout: "default",
-        //     },
-        // },
+        {
+            path: "/mainjob",
+            component: () => import("../views/mainjob/index.vue"),
+            meta: {
+                layout: "default",
+            },
+        },
         {
             path: "/login",
             component: () => import("../views/login/index.vue"),
@@ -22,12 +22,13 @@ const router = createRouter({
             path: "/dashboard",
             component: () => import("../views/dashboard/index.vue"),
         },
-        
         {
-            path: "/mainjob",
-            component: () => import("../views/mainjob/index.vue"),
-            
-        }
+            path: '/mainjob/:id',
+            name: 'JobDetail',
+            component: () => import("../views/jobdetails/index.vue"),
+            props: true 
+          }
+        
     ],
 })
 

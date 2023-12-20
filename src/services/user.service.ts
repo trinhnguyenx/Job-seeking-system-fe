@@ -1,5 +1,6 @@
 import axiosApiInstance from "../api"
-import { IUser, ILogin,ISignUp } from "../types/user"
+import { ILogin,ISignUp } from "../types/user"
+import { IJob } from "../types/auth"
 import axios from "axios"
 axios.defaults.URL = import.meta.env.VITE_API_URL
 
@@ -9,6 +10,12 @@ export const refreshAccessToken = async (): Promise<any> => {
         refresh_token: refresh_token,
     }
     return await axios.post("/auth/refresh", data)
+}
+export const getJobAll = async () => {
+    return await axiosApiInstance.get("/app/dataCrawl")
+}
+export const getJobID = async (id: string) => {
+    return await axiosApiInstance.get(`/app/dataCrawl/${id}`)
 }
 export const loginApi = async (data: ILogin) => {
     return await axiosApiInstance.post("/auth/login", data)
@@ -22,6 +29,4 @@ export const getInfo = async () => {
 export const getInfoAll = async () => {
     return await axiosApiInstance.get("/users/")
 }
-export const getJobAll = async () => {
-    return await axiosApiInstance.get("/app/dataCrawl")
-}
+

@@ -1,38 +1,39 @@
 <template>
   <div>
     <div class="container-search">
-    <div class="input-search">
-      <input type="text" v-model="keySearch" placeholder="Search Job.."/>
-    </div>
-    <!-- <div class="select-province">
-      <select v-model="selectedProvince">
-        <option
-          v-for="province in provinces"
-          :key="province.code"
-          :value="province.name"
-        >
-          {{ province.name }}
-        </option>
-      </select>
-      <div class="container-button">
-        <button>Tìm kiếm</button>
+      <div class="input-search">
+        <input type="text" v-model="keySearch" placeholder="Search Job.." />
       </div>
-    </div> -->
-  </div>
-  <div v-if="filteredJobs.length">
-   <div v-for="job in filteredJobs" :key="job.id">
-      <JobList :job="job" />
-   </div>
-  </div>
-  <div class="pagination">
-      <el-pagination 
-         background layout="prev, pager, next" 
-         :total="listJob.length"
-         :page-size="pageSize"
-         :current-page.sync="currentPage"
-         @current-change="handlePageChange"
+      <div class="select-province">
+        <select v-model="selectedProvince">
+          <option
+            v-for="province in provinces"
+            :key="province.code"
+            :value="province.name"
+          >
+            {{ province.name }}
+          </option>
+        </select>
+        <div class="container-button">
+          <button>Tìm kiếm</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div v-for="(job, index) in filteredJobs" :key="index">
+        <JobList :job="job" />
+      </div>
+    </div>
+    <div class="pagination">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="listJob.length"
+        :page-size="pageSize"
+        :current-page.sync="currentPage"
+        @current-change="handlePageChange"
       />
-   </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -40,14 +41,14 @@ import { ref, onBeforeMount, computed } from "vue";
 import axios from "axios";
 import type { IJob, IPronvince } from "../../../types/auth";
 import { getJobAll } from "../../../services/user.service";
-import JobList from "../joblist/index.vue"
+import JobList from "../joblist/index.vue";
 
 onBeforeMount(() => {
   getProvinces();
   getListJob();
 });
 
-const provinces = ref<Array<IPronvince>>([])
+const provinces = ref<Array<IPronvince>>([]);
 const selectedProvince = ref("");
 const getProvinces = async () => {
   try {
@@ -62,22 +63,11 @@ const getListJob = async (): Promise<void> => {
   try {
     const res = await getJobAll();
     listJob.value = res.data;
-    console.log(listJob.value)
+    console.log(listJob.value);
   } catch (error) {
     console.log("error", error);
   }
 };
-const dataProvince = ref("")
-const filterProvince = (data: string) => {
-  if (data.includes('Tỉnh')) {
-    return dataProvince.value = data.replace('Tỉnh', '').trim();
-  } else if (data.includes('Thành Phố')) {
-    return dataProvince.value = data.replace('Thành Phố', '').trim();
-  } else {
-    return dataProvince.value = data.trim();
-  }
-};
-
 const keySearch = ref("");
 const pageSize = ref(10);
 const currentPage = ref(1);
@@ -95,16 +85,16 @@ const filteredJobs = computed(() => {
         job.Level.toLowerCase().includes(keySearch.value.toLowerCase())
     );
 });
-const handlePageChange = (page:number) => {
+const handlePageChange = (page: number) => {
   currentPage.value = page;
 };
 </script>
 <style scoped>
 .container-search {
-  /* display: flex;
+  display: flex;
   justify-content: center;
   gap: 30%;
-  align-items: center; */
+  align-items: center;
   padding-top: 50px;
   padding-left: 250px;
 }
@@ -126,7 +116,7 @@ const handlePageChange = (page:number) => {
   padding: 5px 30px;
 }
 .pagination {
-    display: flex;
-    justify-content: right;
+  display: flex;
+  justify-content: right;
 }
 </style>
