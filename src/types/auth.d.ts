@@ -21,6 +21,7 @@ export interface IJob {
     Skills: string
     Link: string
     Deadline: string
+    Contact_with: string
 }
 export interface IPronvince {
     name: string

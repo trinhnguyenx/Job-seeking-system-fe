@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <div class="container-search">
       <div class="input-search">
         <input type="text" v-model="keySearch" placeholder="Search Job.." />
@@ -90,6 +90,10 @@ const handlePageChange = (page: number) => {
 };
 </script>
 <style scoped>
+.main-container {
+  padding-bottom: 30px;
+  margin: 0;
+}
 .container-search {
   display: flex;
   justify-content: center;

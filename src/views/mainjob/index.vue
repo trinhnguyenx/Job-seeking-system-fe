@@ -1,7 +1,6 @@
 <template>
   <div>
     <SearchComponent />
-    <JobList />
   </div>
 </template>
 <script setup lang="ts">
