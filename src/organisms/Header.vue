@@ -14,7 +14,7 @@ const goToRegister: () => void = () => {
     router.push("/register")
 }
 const goToDashBoard: () => void = () => {
-    router.push("/dashboard")
+    router.push("/mainjob")
 }
 
 const isVisble = ref<boolean>(false)
@@ -67,7 +67,7 @@ isLogin.value = authStore.getIsLoggedIn()
                         </div>
                         <div>
                             <button @click="goToDashBoard">
-                                <el-icon><CaretRight /></el-icon><span>Dashboard</span>
+                                <el-icon><CaretRight /></el-icon><span>Job List</span>
                             </button>
                         </div>
                         </div>

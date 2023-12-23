@@ -4,6 +4,10 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
+            path: "/",
+            redirect: "/mainjob", 
+        },
+        {
             path: "/mainjob",
             component: () => import("../views/mainjob/index.vue"),
             meta: {

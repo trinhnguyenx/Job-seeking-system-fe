@@ -5,17 +5,15 @@
         <input type="text" v-model="keySearch" placeholder="Search Job.." />
       </div>
       <div class="select-province">
-        <select v-model="selectedProvince">
-          <option
-            v-for="province in provinces"
-            :key="province.code"
-            :value="province.name"
-          >
-            {{ province.name }}
-          </option>
-        </select>
+        <el-select v-model="selectedProvince" placeholder="Select">
+          <el-option
+            v-for="item in provinces"
+            :key="item.code"
+            :value="item.name"
+          />
+        </el-select>
         <div class="container-button">
-          <button>Tìm kiếm</button>
+          <button @click="">Tìm kiếm</button>
         </div>
       </div>
     </div>
@@ -43,9 +41,9 @@ import type { IJob, IPronvince } from "../../../types/auth";
 import { getJobAll } from "../../../services/user.service";
 import JobList from "../joblist/index.vue";
 
-onBeforeMount(() => {
-  getProvinces();
-  getListJob();
+onBeforeMount(async() => {
+  await getProvinces();
+  await getListJob(); 
 });
 
 const provinces = ref<Array<IPronvince>>([]);
@@ -71,20 +69,34 @@ const getListJob = async (): Promise<void> => {
 const keySearch = ref("");
 const pageSize = ref(10);
 const currentPage = ref(1);
+
 const filteredJobs = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
+  
   return listJob.value
     .slice(start, end)
-    .filter(
-      (job) =>
-        job.Title.toLowerCase().includes(keySearch.value.toLowerCase()) ||
-        job.Location.toLowerCase().includes(keySearch.value.toLowerCase()) ||
-        job.Company.toLowerCase().includes(keySearch.value.toLowerCase()) ||
-        job.Salary.toLowerCase().includes(keySearch.value.toLowerCase()) ||
-        job.Level.toLowerCase().includes(keySearch.value.toLowerCase())
-    );
+    .filter((job) => {
+      const isTitleMatch = job.Title.toLowerCase().includes(keySearch.value.toLowerCase());
+      const isPlaceMatch = job.Place.toLowerCase().includes(keySearch.value.toLowerCase());
+      const isCompanyNameMatch = job.Company_Name.toLowerCase().includes(keySearch.value.toLowerCase());
+      const isSalaryMatch = job.Salary.toLowerCase().includes(keySearch.value.toLowerCase());
+      const isLevelMatch = job.Level.toLowerCase().includes(keySearch.value.toLowerCase());
+      
+      // Kiểm tra cả theo keySearch và selectedProvince
+      const isProvinceMatch = job.Title.toLowerCase().includes(selectedProvince.value) ||
+                             job.Place.toLowerCase().includes(selectedProvince.value) ||
+                             job.Company_Name.toLowerCase().includes(selectedProvince.value) ||
+                             job.Salary.toLowerCase().includes(selectedProvince.value) ||
+                             job.Level.toLowerCase().includes(selectedProvince.value);
+
+      return (
+        (isTitleMatch || isPlaceMatch || isCompanyNameMatch || isSalaryMatch || isLevelMatch) &&
+        (isProvinceMatch)
+      );
+    });
 });
+
 const handlePageChange = (page: number) => {
   currentPage.value = page;
 };
@@ -96,28 +108,38 @@ const handlePageChange = (page: number) => {
 }
 .container-search {
   display: flex;
-  justify-content: center;
-  gap: 30%;
+  gap: 20%;
   align-items: center;
   padding-top: 50px;
   padding-left: 250px;
+  padding-bottom: 30px;
 }
 .input-search input {
-  padding: 10px 30px;
+  padding: 12px;
+  padding-right: 150px;
   outline: none;
-  border-radius: 14px;
+  border-radius: 5px;
+  border: none;
+  z-index: 100;
+  box-shadow: 2px 2px 2px 2px rgb(0, 0, 0, 0.2);
 }
 .select-province {
   display: flex;
-  gap: 25px;
-}
-.select-province select {
-  padding: 5px 30px;
-  outline: none;
-  cursor: pointer;
+  gap: 100px;
 }
 .container-button button {
-  padding: 5px 30px;
+  padding: 7px 30px;
+  background-color: #483aa0;
+  border-radius: 16px;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3 ease;
+}
+.container-button button:hover {
+  background-color: #2911c7;
+  cursor: pointer;
 }
 .pagination {
   display: flex;

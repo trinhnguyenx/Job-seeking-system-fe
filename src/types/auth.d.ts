@@ -1,27 +1,18 @@
 export interface IJob {
     id: string
     Title : string
-    Company: string
-    Salary: string
-    YOE: string
-    Type: string
-    Posting_date: string
+    Company_Name: string
+    Job: string
+    Place: string
+    Number_Employee: string
+    Experience: string
     Level: string
+    Salary: string
     Education: string
-    Sex: string
-    Career: string
-    Age: string
-    ID_Job: string
-    Location: string
-    Note: string
-    Phone_number: string
-    Language: string
-    Describe_job: string
-    Benefits: string
-    Skills: string
-    Link: string
+    Description: string
+    Requirement: string
     Deadline: string
-    Contact_with: string
+    Source_Picture: string
 }
 export interface IPronvince {
     name: string

@@ -2,12 +2,12 @@
   <div class="container-listjob">
     <div class="card-listjob" @click="toJobDetail(job.id)">
       <div class="img-card">
-        <img src="http://www.gravatar.com/avatar/?d=mp" alt="image" />
+        <img :src="job.Source_Picture" alt="image" />
       </div>
       <div class="text-card">
         <h3>{{ job?.Title || "No Title" }}</h3>
-        <p class="company">{{ job?.Company || "No Company" }}</p>
-        <p class="location">{{ job?.Location || "No Location" }}</p>
+        <p class="company">{{ job?.Company_Name || "No Company" }}</p>
+        <p class="location">{{ job?.Place || "No Location" }}</p>
         <span class="salary">{{ job?.Salary || "No Salary" }} |</span>
         <span>{{ job?.Level || "No Level" }}</span>
       </div>
