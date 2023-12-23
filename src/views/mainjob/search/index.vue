@@ -4,7 +4,7 @@
       <div class="input-search">
         <input type="text" v-model="keySearch" placeholder="Search Job.." />
       </div>
-      <div class="select-province">
+      <!-- <div class="select-province">
         <el-select v-model="selectedProvince" placeholder="Select">
           <el-option
             v-for="item in provinces"
@@ -13,9 +13,9 @@
           />
         </el-select>
         <div class="container-button">
-          <button @click="">Tìm kiếm</button>
+          <button >Tìm kiếm</button>
         </div>
-      </div>
+      </div> -->
     </div>
     <div>
       <div v-for="(job, index) in filteredJobs" :key="index">
@@ -26,7 +26,7 @@
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="listJob.length"
+        :total="totalSearchedAndFilteredJobs"
         :page-size="pageSize"
         :current-page.sync="currentPage"
         @current-change="handlePageChange"
@@ -43,7 +43,7 @@ import JobList from "../joblist/index.vue";
 
 onBeforeMount(async() => {
   await getProvinces();
-  await getListJob(); 
+  await getListJob();
 });
 
 const provinces = ref<Array<IPronvince>>([]);
@@ -61,7 +61,6 @@ const getListJob = async (): Promise<void> => {
   try {
     const res = await getJobAll();
     listJob.value = res.data;
-    console.log(listJob.value);
   } catch (error) {
     console.log("error", error);
   }
@@ -69,32 +68,25 @@ const getListJob = async (): Promise<void> => {
 const keySearch = ref("");
 const pageSize = ref(10);
 const currentPage = ref(1);
-
+const totalSearchedAndFilteredJobs = computed(() => {
+  return searchedAndFilteredJobs.value.length;
+});
 const filteredJobs = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
-  
-  return listJob.value
+  return searchedAndFilteredJobs.value
     .slice(start, end)
-    .filter((job) => {
-      const isTitleMatch = job.Title.toLowerCase().includes(keySearch.value.toLowerCase());
-      const isPlaceMatch = job.Place.toLowerCase().includes(keySearch.value.toLowerCase());
-      const isCompanyNameMatch = job.Company_Name.toLowerCase().includes(keySearch.value.toLowerCase());
-      const isSalaryMatch = job.Salary.toLowerCase().includes(keySearch.value.toLowerCase());
-      const isLevelMatch = job.Level.toLowerCase().includes(keySearch.value.toLowerCase());
-      
-      // Kiểm tra cả theo keySearch và selectedProvince
-      const isProvinceMatch = job.Title.toLowerCase().includes(selectedProvince.value) ||
-                             job.Place.toLowerCase().includes(selectedProvince.value) ||
-                             job.Company_Name.toLowerCase().includes(selectedProvince.value) ||
-                             job.Salary.toLowerCase().includes(selectedProvince.value) ||
-                             job.Level.toLowerCase().includes(selectedProvince.value);
-
-      return (
-        (isTitleMatch || isPlaceMatch || isCompanyNameMatch || isSalaryMatch || isLevelMatch) &&
-        (isProvinceMatch)
-      );
-    });
+});
+const searchedAndFilteredJobs = computed(() => {
+  return listJob.value.filter((job) => {
+    return (
+      (job.Title.toLowerCase().includes(keySearch.value.toLowerCase())) ||
+      (job.Place.toLowerCase().includes(keySearch.value.toLowerCase())) ||
+      (job.Company_Name.toLowerCase().includes(keySearch.value.toLowerCase())) ||
+      (job.Salary.toLowerCase().includes(keySearch.value.toLowerCase())) ||
+      (job.Level.toLowerCase().includes(keySearch.value.toLowerCase()))
+    );
+  });
 });
 
 const handlePageChange = (page: number) => {
