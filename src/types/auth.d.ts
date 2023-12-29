@@ -2,6 +2,13 @@ export interface IJob {
     id: string
     Title : string
     Company_Name: string
+    Time : String
+    City : String
+    Age: string
+    Sexual: string
+    Probation_Time: string
+    Work_Way: string
+    Right: string
     Job: string
     Place: string
     Number_Employee: string

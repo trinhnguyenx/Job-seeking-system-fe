@@ -17,7 +17,6 @@ const auth = useAuthStore();
 .body-layout {
   width: 100%;
   max-width: 1440px;
-  padding: 0 20px;
   margin: 0 auto;
   margin-top: 56px;
   overflow-y: auto;

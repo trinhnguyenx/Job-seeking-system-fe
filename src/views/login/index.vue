@@ -3,39 +3,50 @@ import { useAuthStore } from "../../stores/auth"
 import { useRouter } from "vue-router"
 import { ref } from "vue"
 import { ILogin, } from "../../types/user"
-// import { initAuthStore } from "../../stores"
 import { loginApi } from "../../services/user.service"
 import { initAuthStore } from '@/stores'
-
-
-
+import {jwtDecode} from 'jwt-decode';
+import { ElNotification } from "element-plus"
 const user = ref<ILogin>({
     email: "",
     password: ""
 })
-
-
-
-
 const auth = useAuthStore()
 const router = useRouter()
-
-
 const submit = async () => {
     try {
         await loginApi({ email: user.value.email, password: user.value.password }).then((res) => {
             const data = res["data"]
-            console.log(data.data.access_token)
             localStorage.setItem("access_token", data.data.access_token)
             localStorage.setItem("refresh_token", data.data.refresh_token)
+            
+            if(data.data.access_token) {
+                try {
+                    const decodedToken = jwtDecode(data.data.access_token) as { role: string };
+                    const roles = decodedToken.role;
+                    console.log(roles);
+                    if(roles === 'admin') {
+                        router.push('/dashboard')
+                        initAuthStore()
+                    } else {
+                        router.push('/user')
+                    }
+                } catch(error) {
+                    console.log(error)
+                    initAuthStore()
+                        ElNotification({
+                        title: "Error",
+                        message: "Login Failed!",
+                        type: "error",
+                        })
+                }
+            }
+
         })
-        await initAuthStore()
-        router.push("/dashboard")
     } catch (error) {
         console.log(error)
     }
 };
-
 </script>
 
 <template>
@@ -55,7 +66,6 @@ const submit = async () => {
         </div>
     </div>
 </template>
-
 <style lang="scss" scoped>
 .login-container {
     width: 100%;

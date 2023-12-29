@@ -11,6 +11,8 @@ export interface ILogin {
     name?: string
     email: string
     password: string 
+    avatar?: string,
+    age?: number
 }
 export interface ISignUp {
     name: string
@@ -23,5 +25,16 @@ export interface IAuthState {
     user: ILogin
     isLoggedIn?: boolean
 }
+export interface ISendMail {
+    mailTo: string
+    link: string
+}
+export interface IUpdate {
+    name: string
+    avatar: string
+    age: number
+    email: string
+}
+
 
 

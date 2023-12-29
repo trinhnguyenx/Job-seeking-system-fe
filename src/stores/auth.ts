@@ -7,6 +7,7 @@ export const useAuthStore = defineStore("auth", () => {
         user: {
             email: "",
             password: "",
+            avatar: ""
         },
         isLoggedIn: false,
     })
@@ -18,6 +19,15 @@ export const useAuthStore = defineStore("auth", () => {
     const getUserName = () => {
         return state.value.user.name
     }
+    const getEmail = () => {
+        return state.value.user.email
+    }
+    const getAvatar = () => { 
+        return state.value.user.avatar
+    }
+    const getAge = () => {
+        return state.value.user.age
+    }
 
     const getIsLoggedIn = () => {
         return state.value.isLoggedIn
@@ -27,5 +37,8 @@ export const useAuthStore = defineStore("auth", () => {
         setAuthStore,
         getUserName,
         getIsLoggedIn,
+        getEmail,
+        getAvatar,
+        getAge
     }
 })

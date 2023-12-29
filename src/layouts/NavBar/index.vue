@@ -1,25 +1,39 @@
 <script setup lang="ts">
-    
+import { useRouter } from "vue-router"
+
+    const router = useRouter()
+    const goToLogin: () => void = () => {
+    router.push("/login")
+    }
+    const goToDashBoard: () => void = () => {
+        router.push("/dashboard")
+    }
+    const goToJob: () => void = () => {
+        router.push("/mainjob")
+    }
+    const goToUser: () => void = () => {
+        router.push("/user")
+    }
 </script>
 <template>
     <div class="container-navbar-left">
         <div class="ava-nav-left">
-            <img src="http://www.gravatar.com/avatar/?d=mp" alt="Logo">
+            <img src="../../images/logodashboard.png" alt="Logo">
         </div>
         <div class="list-dashboard">    
-            <div class="dashboard">
+            <div class="dashboard" @click="goToJob()">
                     <span class="icon"><el-icon><Operation /></el-icon></span>
-                    <a href="">Dashboard</a>
+                    <a >Thông tin việc làm</a>
             </div>
-            <div class="dashboard">
+            <div class="dashboard" @click="goToUser()">
                     <span class="icon"><el-icon><Odometer /></el-icon></span>
-                    <a href="">Dashboard</a>
+                    <a >Thông tin tài khoản</a>
             </div>
-            <div class="dashboard">
+            <div class="dashboard" @click="goToDashBoard()">
                     <span class="icon"><el-icon><User /></el-icon></span>
-                    <a href="">Dashboard</a>
+                    <a >Quản lí người dùng</a>
             </div>
-        </div>
+        </div>  
     </div>
 </template>
 <style lang="scss" scoped>
@@ -51,6 +65,10 @@
 }
 .dashboard {
     padding: 20px;
+    cursor: pointer;
+}
+.dashboard:hover {
+    background-color: #e0e0e0;
 }
 
 </style>

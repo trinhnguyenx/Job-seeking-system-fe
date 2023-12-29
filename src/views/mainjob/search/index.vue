@@ -92,6 +92,7 @@ const searchedAndFilteredJobs = computed(() => {
 const handlePageChange = (page: number) => {
   currentPage.value = page;
 };
+
 </script>
 <style scoped>
 .main-container {

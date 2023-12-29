@@ -23,8 +23,6 @@ const rePassword = ref<string>("")
 const signUp = async () => {
     try {
         if (!checkInput()) {
-            console.log("hihii")
-
             return
         }
         if (rePassword.value != user.value.password) {
