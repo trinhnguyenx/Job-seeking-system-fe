@@ -35,4 +35,7 @@ export const sendMailApi = async (data: ISendMail) => {
 export const updateInfo = async (data: IUpdate) => {
     return await axiosApiInstance.put(`/users/me`, data)
 }
+export const updateJob = async (id: string, data: IJob) => {
+    return await axiosApiInstance.put(`/app/updatejob/${id}`, data)
+}
 

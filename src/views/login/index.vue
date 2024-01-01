@@ -7,6 +7,8 @@ import { loginApi } from "../../services/user.service"
 import { initAuthStore } from '@/stores'
 import {jwtDecode} from 'jwt-decode';
 import { ElNotification } from "element-plus"
+import { getInfo } from "@/services/user.service"
+
 const user = ref<ILogin>({
     email: "",
     password: ""
@@ -26,14 +28,14 @@ const submit = async () => {
                     const roles = decodedToken.role;
                     console.log(roles);
                     if(roles === 'admin') {
-                        router.push('/dashboard')
                         initAuthStore()
+                        router.push('/user')
                     } else {
+                        initAuthStore()
                         router.push('/user')
                     }
                 } catch(error) {
                     console.log(error)
-                    initAuthStore()
                         ElNotification({
                         title: "Error",
                         message: "Login Failed!",

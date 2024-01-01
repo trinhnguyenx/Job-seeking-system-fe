@@ -10,9 +10,6 @@ const authStore = useAuthStore()
 const goToLogin: () => void = () => {
     router.push("/login")
 }
-const goToDashBoard: () => void = () => {
-    router.push("/dashboard")
-}
 const goToJob: () => void = () => {
     router.push("/mainjob")
 }
@@ -21,11 +18,6 @@ const goToUser: () => void = () => {
 }
 const goToRegister: () => void = () => {
     router.push("/register")
-}
-
-const isVisble = ref<boolean>(false)
-const toggleMenu = (): void => {
-    isVisble.value = !isVisble.value
 }
 const isLogin = ref<boolean | undefined>(false)
 
@@ -39,6 +31,7 @@ const logout: () => Promise<void> = async () => {
                 password: "",
             },
             isLoggedIn: false,
+            isAdmin: false,
         })
         router.push("/login")
     } catch (error) {
@@ -60,7 +53,7 @@ isLogin.value = authStore.getIsLoggedIn()
                 <el-button type="primary" @click="goToJob" plain>List job</el-button>
             </div>
             <div class="nav-container__body__info" v-else>
-                <div class="avatar-flex">
+                <div class="avatar-flex" @click="goToUser()">
                     <img :src="authStore.getAvatar()" alt="avatar">
                 <p>{{ authStore.getUserName() }}</p>
                 </div>
@@ -178,6 +171,7 @@ isLogin.value = authStore.getIsLoggedIn()
   justify-content: center;
   align-items: center;
   gap: 4px;
+  
 }
 .dropbtn:hover {
     background-color: #292069;
@@ -196,8 +190,9 @@ isLogin.value = authStore.getIsLoggedIn()
   top: 95%;
   min-width: 100px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
   cursor: pointer;
+  z-index: 1000000;
+
 }
 
 .dropdown-content a {
@@ -205,10 +200,12 @@ isLogin.value = authStore.getIsLoggedIn()
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+
 }
 
 .dropdown-content a:hover {
   background-color: #f1f1f1;
+
 }
 
 .dropdown:hover .dropdown-content {

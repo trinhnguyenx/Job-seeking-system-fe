@@ -24,16 +24,17 @@ export interface ISignUp {
 export interface IAuthState {
     user: ILogin
     isLoggedIn?: boolean
+    isAdmin: boolean
 }
 export interface ISendMail {
     mailTo: string
     link: string
 }
 export interface IUpdate {
-    name: string
-    avatar: string
-    age: number
-    email: string
+    name?: string
+    avatar?: string
+    age?: number
+    email?: string
 }
 
 

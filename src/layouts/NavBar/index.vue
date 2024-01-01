@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router"
+import { useAuthStore } from "@/stores/auth"
+
 
     const router = useRouter()
-    const goToLogin: () => void = () => {
-    router.push("/login")
-    }
     const goToDashBoard: () => void = () => {
         router.push("/dashboard")
     }
@@ -29,7 +28,7 @@ import { useRouter } from "vue-router"
                     <span class="icon"><el-icon><Odometer /></el-icon></span>
                     <a >Thông tin tài khoản</a>
             </div>
-            <div class="dashboard" @click="goToDashBoard()">
+            <div v-if="useAuthStore().getIsAdmin()" class="dashboard" @click="goToDashBoard()">
                     <span class="icon"><el-icon><User /></el-icon></span>
                     <a >Quản lí người dùng</a>
             </div>

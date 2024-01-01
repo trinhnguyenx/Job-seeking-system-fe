@@ -1,6 +1,6 @@
 export interface IJob {
     id: string
-    Title : string
+    Title: string
     Company_Name: string
     Time : String
     City : String
@@ -21,6 +21,37 @@ export interface IJob {
     Deadline: string
     Source_Picture: string
 }
+export interface IJobUpdate {
+    id?: string
+    Title?: string
+    Company_Name?: string
+    Time?: String
+    City?: String
+    Age?: string
+    Sexual?: string
+    Probation_Time?: string
+    Work_Way?: string
+    Right?: string
+    Job?: string
+    Place?: string
+    Number_Employee?: string
+    Experience?: string
+    Level?: string
+    Salary?: string
+    Education?: string
+    Description?: string
+    Requirement?: string
+    Deadline?: string
+    Source_Picture?: string
+}
+// export interface IJobUpdate {
+//     id?: string
+//     Title?: string
+//     Company_Name?: string
+//     Place?: string
+//     Salary?: string
+//     Level?: string
+// }
 export interface IPronvince {
     name: string
     code: number

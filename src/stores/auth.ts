@@ -10,6 +10,7 @@ export const useAuthStore = defineStore("auth", () => {
             avatar: ""
         },
         isLoggedIn: false,
+        isAdmin: false
     })
 
     const setAuthStore = (data: IAuthState) => {
@@ -32,6 +33,9 @@ export const useAuthStore = defineStore("auth", () => {
     const getIsLoggedIn = () => {
         return state.value.isLoggedIn
     }
+    const getIsAdmin = () => {
+        return state.value.isAdmin
+    }
     return {
         state,
         setAuthStore,
@@ -39,6 +43,7 @@ export const useAuthStore = defineStore("auth", () => {
         getIsLoggedIn,
         getEmail,
         getAvatar,
-        getAge
+        getAge,
+        getIsAdmin
     }
 })
