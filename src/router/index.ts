@@ -1,9 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import {jwtDecode} from 'jwt-decode';
+
 const isAdmin = (to: any, from: any, next: any) => {
-    const roles: boolean = useAuthStore().getIsAdmin(); 
-  
-    if (roles == true) {
+    // const roles: boolean = useAuthStore().getIsAdmin(); 
+    const access_token  = localStorage.getItem("access_token") as string
+    const decodedToken = jwtDecode(access_token) as { role: string };
+    const roles = decodedToken.role;
+    if (roles == "admin") {
       next(); 
     } else {
       next('/403'); 

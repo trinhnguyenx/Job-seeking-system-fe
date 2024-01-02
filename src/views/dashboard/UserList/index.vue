@@ -26,7 +26,9 @@
           </table>
         </div>
         <div v-for="user in filteredUsers" :key="user.id">
-          <UserCard :user="user" />
+          <UserCard 
+          :user="user" 
+          />
         </div>
       </div>
     </div>
@@ -50,17 +52,12 @@ import { getInfoAll } from "@/services/user.service";
 import type { IUser } from "@/types/user";
 
 const router = useRouter();
-const tableColumns = ref(["Avatar", "Name", "Email", "CreateAt", "UpdateAt"]);
+const tableColumns = ref(["Avatar", "Name", "Email", "CreateAt", "UpdateAt","Action"]);
 
 const listUser = ref<Array<IUser>>([]);
 const getListUser = async (): Promise<void> => {
   try {
     const res = await getInfoAll();
-    ElNotification({
-      title: "Success",
-      message: "Get All form success",
-      type: "success",
-    });
     listUser.value = res.data;
   } catch (error) {
     console.log("error", error);
@@ -70,7 +67,6 @@ const getListUser = async (): Promise<void> => {
 onBeforeMount(() => {
   getListUser();
 });
-
 const keySearch = ref<string>("");
 const pageSize = ref(8);
 const currentPage = ref(1);
@@ -110,11 +106,10 @@ const handlePageChange = (page:number) => {
 }
 .row-title-card table {
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto 100px;
   align-items: center;
   background-color: #f2f3f4;
   padding: 15px;
-  padding-left: 30px;
   border-radius: 16px;
 }
 .container-search {

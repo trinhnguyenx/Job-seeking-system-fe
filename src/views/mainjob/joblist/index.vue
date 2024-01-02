@@ -60,7 +60,7 @@ const handleCheckAuth = () => {
 <style scoped>
 .container-listjob {
   display: flex;
-  margin-left: 100px;
+  gap: 20px;
 }
 .img-card img {
   width: 80px;
@@ -85,8 +85,7 @@ const handleCheckAuth = () => {
   box-shadow: 5px 5px 5px 0px rgb(2, 105, 219, 0.5);
 }
 .container-listjob {
-  padding: 15px 250px;
-  margin-left:350px;
+  padding: 15px 250px 15px 0;
   display: grid;
   grid-template-columns: auto 100px;
 }
@@ -96,7 +95,7 @@ const handleCheckAuth = () => {
   padding-top: 3px;
 }
 .text-card .location {
-  color: #d0d6dc;
+  color: #9aa3ac;
   font-size: 12px;
   padding-top: 3px;
 }

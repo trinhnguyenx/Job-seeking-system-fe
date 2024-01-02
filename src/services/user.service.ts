@@ -11,26 +11,30 @@ export const refreshAccessToken = async (): Promise<any> => {
     }
     return await axios.post("/auth/refresh", data)
 }
-export const getJobAll = async () => {
-    return await axiosApiInstance.get("/app/dataCrawl")
-}
-export const getJobID = async (id: string) => {
-    return await axiosApiInstance.get(`/app/dataCrawl/${id}`)
-}
 export const loginApi = async (data: ILogin) => {
     return await axiosApiInstance.post("/auth/login", data)
 }
 export const registerApi = async (data: ISignUp) => {
     return await axiosApiInstance.post("/auth/register", data)
 }
+export const sendMailApi = async (data: ISendMail) => {
+    return await axiosApiInstance.post("/auth/sendMail", data )
+}
+export const deleteAPI = async (id: string) => {
+    return await axiosApiInstance.delete(`/auth/${id}`)
+}
+
+export const getJobAll = async () => {
+    return await axiosApiInstance.get("/app/dataCrawl")
+}
+export const getJobID = async (id: string) => {
+    return await axiosApiInstance.get(`/app/dataCrawl/${id}`)
+}
 export const getInfo = async () => {
     return await axiosApiInstance.get("/users/me")
 }
 export const getInfoAll = async () => {
     return await axiosApiInstance.get("/users/")
-}
-export const sendMailApi = async (data: ISendMail) => {
-    return await axiosApiInstance.post("/auth/sendMail", data )
 }
 export const updateInfo = async (data: IUpdate) => {
     return await axiosApiInstance.put(`/users/me`, data)

@@ -86,23 +86,26 @@
         </el-select>
       </div>
       <div class="button-search">
-        <button>
+        <button @click="searchJobs">
           <el-icon><Search /></el-icon><span>Tìm kiếm</span>
         </button>
       </div>
     </div>
     <div class="job-list-child">
-      <div class="list-img-left">
+      <div class="left-column">
+        <div class="list-img-left">
         <img src="src/images/left-img-1.webp" alt="anh" />
         <img src="src/images/left-img-2.webp" alt="anh" />
         <img src="src/images/left-img-3.webp" alt="anh" />
         <img src="src/images/img-left-4.webp" alt="anh" />
         <img src="src/images/img-left-5.jpg" alt="anh" />
         <img src="src/images/left-img-6.webp" alt="anh" />
-        <!-- <img src="src/images/left-img-7.jpg" alt="anh"> -->
       </div>
-      <div v-for="(job, index) in filteredJobs" :key="index">
+      </div>
+      <div class="right-column">
+        <div v-for="(job, index) in filteredJobs" :key="index">
         <JobList :job="job" />
+      </div>
       </div>
     </div>
     <div class="pagination">
@@ -115,15 +118,16 @@
         @current-change="handlePageChange"
       />
     </div>
-    <div class="footer"></div>
+    <Footer/>
   </div>
 </template>
 <script setup lang="ts">
 import { ref, onBeforeMount, computed } from "vue";
 import axios from "axios";
-import type { IJob, IPronvince } from "../../../types/auth";
-import { getJobAll } from "../../../services/user.service";
+import type { IJob, IPronvince } from "@/types/auth";
+import { getJobAll } from "@/services/user.service";
 import JobList from "../joblist/index.vue";
+import Footer from "../../footer/index.vue"
 
 onBeforeMount(async () => {
   await getProvinces();
@@ -155,7 +159,7 @@ const getListJob = async (): Promise<void> => {
   }
 };
 const keySearch = ref("");
-const pageSize = ref(10);
+const pageSize = ref(9);
 const currentPage = ref(1);
 const totalSearchedAndFilteredJobs = computed(() => {
   return searchedAndFilteredJobs.value.length;
@@ -168,15 +172,18 @@ const filteredJobs = computed(() => {
 const searchedAndFilteredJobs = computed(() => {
   return listJob.value.filter((job) => {
     return (
-      job.Title.toLowerCase().includes(keySearch.value.toLowerCase()) ||
-      job.Place.toLowerCase().includes(keySearch.value.toLowerCase()) ||
-      job.Company_Name.toLowerCase().includes(keySearch.value.toLowerCase()) ||
-      job.Salary.toLowerCase().includes(keySearch.value.toLowerCase()) ||
-      job.Level.toLowerCase().includes(keySearch.value.toLowerCase())
+      job.Title.toLowerCase().includes(keySearch.value.toLowerCase()) && job.Title.toLowerCase().includes(selectedProvince.value.toLowerCase()) ||
+      job.Place.toLowerCase().includes(keySearch.value.toLowerCase()) && job.Place.toLowerCase().includes(selectedProvince.value.toLowerCase()) ||
+      job.Company_Name.toLowerCase().includes(keySearch.value.toLowerCase()) && job.Company_Name.toLowerCase().includes(selectedProvince.value.toLowerCase()) ||
+      job.Salary.toLowerCase().includes(keySearch.value.toLowerCase()) && job.Salary.toLowerCase().includes(selectedProvince.value.toLowerCase()) ||
+      job.Level.toLowerCase().includes(keySearch.value.toLowerCase()) 
     );
   });
 });
-
+const searchJobs = async () => {
+  await getListJob(); 
+  currentPage.value = 1; 
+};
 const handlePageChange = (page: number) => {
   currentPage.value = page;
 };
@@ -329,27 +336,28 @@ const handlePageChange = (page: number) => {
   background-color: #483aa0;
 }
 .job-list-child {
+  margin-left: 80px;
   margin-top: 100px;
-  position: relative;
-}
-.list-img-left {
-  position: absolute;
   display: flex;
-  flex-direction: column;
-  margin-left: 100px;
-  gap: 45px;
+  justify-content: space-between;
+  gap: 80px;
+}
+.left-column,
+.right-column {
+  flex: 1;
+  padding: 0 15px;
+
 }
 .list-img-left img {
   width: 400px;
   height: 300px;
   margin-top: 15px;
   border-radius: 16px;
+  transition: transform 1s ease-in-out; 
+  cursor: pointer;
 }
-.footer {
-  padding: 60px;
-  background-color: #2911c7;
-  position: absolute;
-  bottom: -8%;
-  width: 100%;
+.list-img-left img:hover {
+  transform: scale(1.05);
+  box-shadow: 2px 2px 2px 2px rgb(0, 0, 0, 0.2);
 }
 </style>
