@@ -61,8 +61,13 @@ const submit = async () => {
                 <div class="login-container__form__content__co"></div>
                 <el-button @click="submit" class="login-container__form__content__submit" type="primary">Sign in</el-button>
                 <div class="login-container__form__content__register">
+                    <div>
                     <span>Don't have an account?</span>
                     <el-link type="primary" href="/register">Register</el-link>
+                    </div>
+                    <div>
+                    <el-link type="primary" href="/forgotpassword">Forgot Password</el-link>
+                </div>
                 </div>
             </div>
         </div>
@@ -104,10 +109,14 @@ const submit = async () => {
                 width: 100%;
             }
             &__register {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 span {
                     font-size: 12px;
                     padding-right: 8px;
                 }
+                
             }
         }
     }

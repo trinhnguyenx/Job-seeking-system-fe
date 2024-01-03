@@ -57,6 +57,20 @@ const router = createRouter({
       },
     },
     {
+      path: "/forgotpassword",
+      component: () => import("@/views/forgotpassword/index.vue"),
+      meta: {
+        layout: "default",
+      },
+    },
+    {
+      path: "/resetpassword",
+      component: () => import("@/views/resetpassword/index.vue"),
+      meta: {
+        layout: "default",
+      },
+    },
+    {
         path: '/403',
         name: 'Error403',
         component: () => import('@/views/error/index.vue'),

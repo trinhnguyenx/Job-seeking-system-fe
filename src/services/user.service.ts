@@ -20,6 +20,12 @@ export const registerApi = async (data: ISignUp) => {
 export const sendMailApi = async (data: ISendMail) => {
     return await axiosApiInstance.post("/auth/sendMail", data )
 }
+export const forgotpassword = async (email: string) => {
+    return await axiosApiInstance.post("/auth/forgotpassword", {email} )
+}
+export const resetpassword = async (email: string, password: string) => {
+    return await axiosApiInstance.post("/auth/resetpassword", {email,password} )
+}
 export const deleteAPI = async (id: string) => {
     return await axiosApiInstance.delete(`/auth/${id}`)
 }

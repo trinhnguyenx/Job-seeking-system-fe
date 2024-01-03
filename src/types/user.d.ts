@@ -39,6 +39,11 @@ export interface IUpdate {
 export interface IJobTitle {
     job: string
 }
+export interface IResetPass {
+    email: string
+    exp: number
+    iat: number
+}
 
 
 
