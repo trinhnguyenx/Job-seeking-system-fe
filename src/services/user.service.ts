@@ -23,12 +23,17 @@ export const sendMailApi = async (data: ISendMail) => {
 export const deleteAPI = async (id: string) => {
     return await axiosApiInstance.delete(`/auth/${id}`)
 }
-
 export const getJobAll = async () => {
-    return await axiosApiInstance.get("/app/dataCrawl")
+    return await axiosApiInstance.get('/app/dataCrawl');
 }
 export const getJobID = async (id: string) => {
     return await axiosApiInstance.get(`/app/dataCrawl/${id}`)
+}
+export const getJobTitle = async () => {
+    return await axiosApiInstance.get("/app/jobtitle")
+}
+export const getJobFilter = async (keyFilter1: string,keyFilter2: string,keyFilter3: string) => {
+    return await axiosApiInstance.get(`/app/filterjob?key1=${keyFilter1}&key2=${keyFilter2}&key3=${keyFilter3}`)
 }
 export const getInfo = async () => {
     return await axiosApiInstance.get("/users/me")

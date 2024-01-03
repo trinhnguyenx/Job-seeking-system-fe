@@ -36,6 +36,11 @@ export interface IUpdate {
     age?: number
     email?: string
 }
+export interface IJobTitle {
+    job: string
+}
+
+
 
 
 

@@ -276,7 +276,7 @@
 </template>
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router";
-import { ref, onBeforeMount, computed, onMounted, onUnmounted } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { getJobID } from "../../services/user.service";
 import type { IJob } from "../../types/auth";
 import PopupSendMail from "../popup/popupsendMail.vue";
@@ -314,25 +314,13 @@ const checkLogin = () => {
   if(auth.state.isLoggedIn === true) {
     IsvisibleNotify.value = false
     IsvisibleSendMail.value = true
-    console.log("check1",IsvisibleSendMail.value)
   } else {
     IsvisibleNotify.value = true
-    console.log("check2",IsvisibleSendMail.value)
   }
 }
 const closePopupNotify = ():void => {
   IsvisibleNotify.value = false
 }
-
-const formatText = (data: any) => {
-  if (typeof data !== "string" || !data) {
-    return "";
-  } else {
-    const sentences = data.split(". ");
-    const convertedText = sentences.join(".<br>");
-    return convertedText;
-  }
-};
 const formatTextSkill = (data: any): string => {
   if (typeof data !== "string" || !data) {
     return "";

@@ -1,6 +1,6 @@
 <template>
   <div class="container-listjob">
-    <div class="card-listjob" @click="toJobDetail(job?.id || '')">
+    <div class="card-listjob" @click="toJobDetail(job.Id)">
       <div class="img-card">
         <img :src="job.Source_Picture" alt="image" />
       </div>
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="button-edit" v-if="isAdmin">
-      <button @click ="handleOpenPopup(job?.id || '')">Edit</button>
+      <button @click ="handleOpenPopup(job?.Id || '')">Edit</button>
     </div>
     <popupUpdate
     v-if="isOpen"

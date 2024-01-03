@@ -1,5 +1,5 @@
 export interface IJob {
-    id: string
+    Id: string
     Title: string
     Company_Name: string
     Time : String
@@ -22,7 +22,7 @@ export interface IJob {
     Source_Picture: string
 }
 export interface IJobUpdate {
-    id?: string
+    Id?: string
     Title?: string
     Company_Name?: string
     Time?: String
@@ -44,15 +44,13 @@ export interface IJobUpdate {
     Deadline?: string
     Source_Picture?: string
 }
-// export interface IJobUpdate {
-//     id?: string
-//     Title?: string
-//     Company_Name?: string
-//     Place?: string
-//     Salary?: string
-//     Level?: string
-// }
 export interface IPronvince {
     name: string
     code: number
+}
+export interface IPagination {
+    data: IJob[],
+    totalPages: number,
+    currentPage: number,
+    pageSize: number
 }

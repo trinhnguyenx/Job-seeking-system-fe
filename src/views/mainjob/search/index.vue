@@ -73,8 +73,14 @@
       <div class="input-search">
         <input type="text" v-model="keySearch" placeholder="Search Job.." />
       </div>
-      <div class="input-search">
-        <input type="text" v-model="keySearch" />
+      <div class="input-search-select">
+        <el-select v-model="selectedJobTitle" placeholder="Select">
+          <el-option
+            v-for="(item, index) in listJobTitle"
+            :key="index"
+            :value="item"
+          />
+        </el-select>
       </div>
       <div class="input-search-select">
         <el-select v-model="selectedProvince" placeholder="Select">
@@ -86,7 +92,7 @@
         </el-select>
       </div>
       <div class="button-search">
-        <button @click="searchJobs">
+        <button @click="getJobFilterkey(keySearch,selectedJobTitle,selectedProvince)">
           <el-icon><Search /></el-icon><span>Tìm kiếm</span>
         </button>
       </div>
@@ -94,18 +100,18 @@
     <div class="job-list-child">
       <div class="left-column">
         <div class="list-img-left">
-        <img src="src/images/left-img-1.webp" alt="anh" />
-        <img src="src/images/left-img-2.webp" alt="anh" />
-        <img src="src/images/left-img-3.webp" alt="anh" />
-        <img src="src/images/img-left-4.webp" alt="anh" />
-        <img src="src/images/img-left-5.jpg" alt="anh" />
-        <img src="src/images/left-img-6.webp" alt="anh" />
-      </div>
+          <img src="src/images/left-img-1.webp" alt="anh" />
+          <img src="src/images/left-img-2.webp" alt="anh" />
+          <img src="src/images/left-img-3.webp" alt="anh" />
+          <img src="src/images/img-left-4.webp" alt="anh" />
+          <img src="src/images/img-left-5.jpg" alt="anh" />
+          <img src="src/images/left-img-6.webp" alt="anh" />
+        </div>
       </div>
       <div class="right-column">
         <div v-for="(job, index) in filteredJobs" :key="index">
-        <JobList :job="job" />
-      </div>
+          <JobList :job="job" />
+        </div>
       </div>
     </div>
     <div class="pagination">
@@ -118,16 +124,16 @@
         @current-change="handlePageChange"
       />
     </div>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 <script setup lang="ts">
 import { ref, onBeforeMount, computed } from "vue";
 import axios from "axios";
 import type { IJob, IPronvince } from "@/types/auth";
-import { getJobAll } from "@/services/user.service";
+import { getJobAll, getJobFilter } from "@/services/user.service";
 import JobList from "../joblist/index.vue";
-import Footer from "../../footer/index.vue"
+import Footer from "../../footer/index.vue";
 
 onBeforeMount(async () => {
   await getProvinces();
@@ -140,11 +146,26 @@ const listImages = [
   "src/images/carousel-4.webp",
 ];
 const provinces = ref<Array<IPronvince>>([]);
+const keySearch = ref("");
 const selectedProvince = ref("");
+const selectedJobTitle = ref("");
+const removePrefix = (keyword: string) => {
+    return keyword.replace('Tỉnh ', '').replace('Thành phố ', '');
+};
+
+const getJobFilterkey = async (key1: string,key2: string,key3: string): Promise<void> => {
+  try {
+    const res = await getJobFilter(key1.toLowerCase(),key2.toLowerCase(),removePrefix(key3));
+    listJob.value = res.data.data;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
 const getProvinces = async () => {
   try {
     const response = await axios.get("https://provinces.open-api.vn/api/");
     provinces.value = response.data;
+    provinces.value.unshift({ code : 0, name: '' });
   } catch (error) {
     console.error("Error fetching provinces:", error);
   }
@@ -158,32 +179,35 @@ const getListJob = async (): Promise<void> => {
     console.log("error", error);
   }
 };
-const keySearch = ref("");
-const pageSize = ref(9);
+const listJobTitle = ref([
+  "",
+  "Điện - Điện tử - Điện lạnh",
+  "Bán hàng - Kinh doanh",
+  "Khoa học - Kỹ thuật",
+  "Môi trường - Xử lí chất thải",
+  "Marketing",
+  "Hành chính - Thư ký",
+  "Khoa học",
+  "IT Phần mềm",
+  "Sản xuất - Lắp ráp - Chế biến",
+  "Cơ khí - Ô tô - Tự động hóa",
+  "Ngân hàng",
+  "Bất động sản",
+  "Bảo hiểm"
+]);
+const pageSize = ref(10);
 const currentPage = ref(1);
 const totalSearchedAndFilteredJobs = computed(() => {
-  return searchedAndFilteredJobs.value.length;
+  return listJob.value.length;
 });
 const filteredJobs = computed(() => {
+  if (!Array.isArray(listJob.value)) {
+    return [];
+  }
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
-  return searchedAndFilteredJobs.value.slice(start, end);
+  return listJob.value.slice(start, end);
 });
-const searchedAndFilteredJobs = computed(() => {
-  return listJob.value.filter((job) => {
-    return (
-      job.Title.toLowerCase().includes(keySearch.value.toLowerCase()) && job.Title.toLowerCase().includes(selectedProvince.value.toLowerCase()) ||
-      job.Place.toLowerCase().includes(keySearch.value.toLowerCase()) && job.Place.toLowerCase().includes(selectedProvince.value.toLowerCase()) ||
-      job.Company_Name.toLowerCase().includes(keySearch.value.toLowerCase()) && job.Company_Name.toLowerCase().includes(selectedProvince.value.toLowerCase()) ||
-      job.Salary.toLowerCase().includes(keySearch.value.toLowerCase()) && job.Salary.toLowerCase().includes(selectedProvince.value.toLowerCase()) ||
-      job.Level.toLowerCase().includes(keySearch.value.toLowerCase()) 
-    );
-  });
-});
-const searchJobs = async () => {
-  await getListJob(); 
-  currentPage.value = 1; 
-};
 const handlePageChange = (page: number) => {
   currentPage.value = page;
 };
@@ -192,6 +216,7 @@ const handlePageChange = (page: number) => {
 .main-container {
   margin: 0;
   position: relative;
+  overflow-x: hidden;
 }
 .container-search {
   display: flex;
@@ -346,14 +371,13 @@ const handlePageChange = (page: number) => {
 .right-column {
   flex: 1;
   padding: 0 15px;
-
 }
 .list-img-left img {
   width: 400px;
   height: 300px;
   margin-top: 15px;
   border-radius: 16px;
-  transition: transform 1s ease-in-out; 
+  transition: transform 1s ease-in-out;
   cursor: pointer;
 }
 .list-img-left img:hover {
