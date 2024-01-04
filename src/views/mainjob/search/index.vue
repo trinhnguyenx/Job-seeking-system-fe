@@ -175,6 +175,7 @@ const getListJob = async (): Promise<void> => {
   try {
     const res = await getJobAll();
     listJob.value = res.data;
+    console.log(listJob.value)
   } catch (error) {
     console.log("error", error);
   }
