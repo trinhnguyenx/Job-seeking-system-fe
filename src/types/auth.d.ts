@@ -1,5 +1,5 @@
 export interface IJob {
-    Id: string
+    id: string
     Title: string
     Company_Name: string
     Time : String
@@ -22,7 +22,7 @@ export interface IJob {
     Source_Picture: string
 }
 export interface IJobUpdate {
-    Id: string
+    id: string
     Title?: string
     Company_Name?: string
     Time?: String
